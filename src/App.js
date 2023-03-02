@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import CheckinForm from "./components/CheckinForm";
+import CheckinList from "./components/CheckinList";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
 
 function App() {
+  const [checkins, setCheckins] = useState([]);
+
+  const handleCheckin = (checkin) => {
+    setCheckins([...checkins, { id: Date.now(), ...checkin }]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/checkin" element={<CheckinForm />} />
+        <Route path="/checkinList" element={<CheckinList />} />
+        <Route path="*" element={<h1>404 - Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
